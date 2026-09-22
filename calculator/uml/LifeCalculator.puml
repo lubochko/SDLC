@@ -1,0 +1,82 @@
+@startuml
+
+class Main {
+    +main(args: String[])
+}
+
+class MainView {
+    -model: LifeCalculatorModel
+    -yearsLabel: JLabel
+    -hoursPerDayLabel: JLabel
+    -totalHoursLabel: JLabel
+    -totalDaysLabel: JLabel
+    -cursorDistanceLabel: JLabel
+    -mouseClicksLabel: JLabel
+    -keyPressesLabel: JLabel
+    -inputButton: JButton
+
+    +MainView(model: LifeCalculatorModel)
+    +getInputButton(): JButton
+    +modelChanged()
+}
+
+class LifeCalculatorController {
+    -model: LifeCalculatorModel
+    -view: MainView
+
+    +LifeCalculatorController(model: LifeCalculatorModel, view: MainView)
+    -openInputDialog()
+}
+
+class LifeCalculatorModel {
+    -years: int
+    -hoursPerDay: double
+    -totalHours: double
+    -totalDays: double
+    -cursorDistanceKm: double
+    -mouseClicks: double
+    -keyPresses: double
+    -listener: ModelListener
+
+    +setListener(listener: ModelListener)
+    +setData(years: int, hoursPerDay: double)
+    -validateData(years: int, hoursPerDay: double)
+    -calculate()
+    +getYears(): int
+    +getHoursPerDay(): double
+    +getTotalHours(): double
+    +getTotalDays(): double
+    +getCursorDistanceKm(): double
+    +getMouseClicks(): double
+    +getKeyPresses(): double
+}
+
+class InputDialog {
+    -yearsField: JTextField
+    -hoursPerDayField: JTextField
+    -confirmed: boolean
+
+    +InputDialog(parent: JFrame, currentYears: int, currentHoursPerDay: double)
+    +isConfirmed(): boolean
+    +getYearsText(): String
+    +getHoursPerDayText(): String
+}
+
+interface ModelListener {
+    +modelChanged()
+}
+
+Main --> MainView : creates
+Main --> LifeCalculatorController : creates
+
+MainView --> LifeCalculatorController : requests input / creates
+MainView --> LifeCalculatorModel : reads state
+MainView ..|> ModelListener : implements
+
+LifeCalculatorController --> LifeCalculatorModel : updates
+LifeCalculatorController --> InputDialog : manages
+
+LifeCalculatorModel ..> ModelListener : notifies
+LifeCalculatorModel ..> ModelListener : defines (inner interface)
+
+@enduml
