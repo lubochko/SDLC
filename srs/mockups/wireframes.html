@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>TypePulse — GUI mockups (SysML export stand-in)</title>
+  <style>
+    :root {
+      --bg: #e8eef5;
+      --panel: #ffffff;
+      --ink: #1a2332;
+      --accent: #0b6e4f;
+      --muted: #5a6a7a;
+      --err: #b42318;
+      --ok: #0b6e4f;
+      --line: #c5d0dc;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "Trebuchet MS", sans-serif;
+      background: #2b3440;
+      color: var(--ink);
+    }
+    h1.page-title {
+      color: #fff;
+      text-align: center;
+      padding: 24px 12px 8px;
+      font-weight: 600;
+      font-size: 20px;
+    }
+    .hint {
+      color: #aeb8c4;
+      text-align: center;
+      font-size: 13px;
+      margin-bottom: 20px;
+    }
+    .screen {
+      width: 960px;
+      height: 540px;
+      margin: 24px auto;
+      background: var(--bg);
+      border: 2px solid #111;
+      position: relative;
+      overflow: hidden;
+      page-break-after: always;
+    }
+    .topbar {
+      height: 52px;
+      background: var(--panel);
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      gap: 24px;
+    }
+    .logo {
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.02em;
+    }
+    .nav a {
+      color: var(--muted);
+      text-decoration: none;
+      margin-right: 16px;
+      font-size: 14px;
+    }
+    .nav a.active { color: var(--ink); font-weight: 600; }
+    .content { padding: 28px 36px; }
+    .hero-brand {
+      font-size: 56px;
+      font-weight: 800;
+      color: var(--accent);
+      margin: 48px 0 8px;
+    }
+    .hero-sub {
+      font-size: 18px;
+      color: var(--muted);
+      margin-bottom: 36px;
+      max-width: 480px;
+    }
+    .btn {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      padding: 12px 22px;
+      border-radius: 6px;
+      font-weight: 600;
+      margin-right: 10px;
+      border: none;
+      font-size: 15px;
+    }
+    .btn.ghost {
+      background: transparent;
+      color: var(--accent);
+      border: 2px solid var(--accent);
+    }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+    .row { display: flex; gap: 16px; flex-wrap: wrap; }
+    .option {
+      border: 2px solid var(--line);
+      border-radius: 8px;
+      padding: 12px 18px;
+      min-width: 100px;
+      text-align: center;
+      background: #fff;
+    }
+    .option.selected {
+      border-color: var(--accent);
+      background: #e7f5ef;
+      font-weight: 600;
+    }
+    label.field {
+      display: block;
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .prompt {
+      font-size: 22px;
+      line-height: 1.55;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 20px;
+      min-height: 140px;
+    }
+    .prompt .ok { color: var(--ok); }
+    .prompt .bad { color: var(--err); background: #fdecea; }
+    .prompt .cur {
+      border-bottom: 2px solid var(--accent);
+    }
+    .prompt .dim { color: #9aa8b5; }
+    .metrics {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .metric {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px 18px;
+      min-width: 110px;
+    }
+    .metric b { display: block; font-size: 22px; }
+    .metric span { font-size: 12px; color: var(--muted); }
+    .timer {
+      position: absolute;
+      top: 68px;
+      right: 36px;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--accent);
+      background: #fff;
+      border: 1px solid var(--line);
+      padding: 8px 16px;
+      border-radius: 8px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      font-size: 14px;
+    }
+    th, td {
+      border: 1px solid var(--line);
+      padding: 10px 12px;
+      text-align: left;
+    }
+    th { background: #f3f6f9; }
+    .caption {
+      position: absolute;
+      bottom: 10px;
+      right: 14px;
+      font-size: 11px;
+      color: #7a8794;
+    }
+    .big-metric {
+      font-size: 48px;
+      font-weight: 800;
+      color: var(--accent);
+    }
+    .sysml-tag {
+      position: absolute;
+      top: 60px;
+      left: 36px;
+      font-size: 11px;
+      color: #7a8794;
+    }
+  </style>
+</head>
+<body>
+  <h1 class="page-title">TypePulse — мокапы GUI (визуализация SysML-экранов)</h1>
+  <p class="hint">Источник модели: srs/sysml/TypePulseUI.sysml · для экспорта PNG используйте скриншоты секций .screen</p>
+
+  <!-- 01 HOME -->
+  <section class="screen" id="home">
+    <div class="topbar">
+      <div class="logo">TypePulse</div>
+      <nav class="nav">
+        <a class="active" href="#">Главная</a>
+        <a href="#">Тренировка</a>
+        <a href="#">История</a>
+        <a href="#">Рейтинг</a>
+      </nav>
+    </div>
+    <div class="sysml-tag">SysML: TypePulseUI::HomeScreen</div>
+    <div class="content">
+      <div class="hero-brand">TypePulse</div>
+      <div class="hero-sub">Интерактивный тренажёр для оценки и улучшения навыков набора текста</div>
+      <button class="btn">Начать тренировку</button>
+      <button class="btn ghost">Войти</button>
+      <button class="btn ghost">Регистрация</button>
+    </div>
+    <div class="caption">01-home.png</div>
+  </section>
+
+  <!-- 02 SETUP -->
+  <section class="screen" id="setup">
+    <div class="topbar">
+      <div class="logo">TypePulse</div>
+      <nav class="nav">
+        <a href="#">Главная</a>
+        <a class="active" href="#">Тренировка</a>
+        <a href="#">История</a>
+        <a href="#">Рейтинг</a>
+      </nav>
+    </div>
+    <div class="sysml-tag">SysML: TypePulseUI::SetupScreen</div>
+    <div class="content">
+      <h2 style="margin-top:8px">Настройка тренировки</h2>
+      <div class="card">
+        <label class="field">Язык текста</label>
+        <div class="row">
+          <div class="option selected">RU</div>
+          <div class="option">EN</div>
+        </div>
+      </div>
+      <div class="card">
+        <label class="field">Длительность</label>
+        <div class="row">
+          <div class="option">30 с</div>
+          <div class="option selected">60 с</div>
+          <div class="option">120 с</div>
+        </div>
+      </div>
+      <div class="card">
+        <label class="field">Сложность</label>
+        <div class="row">
+          <div class="option">Лёгкий</div>
+          <div class="option selected">Средний</div>
+          <div class="option">Сложный</div>
+        </div>
+      </div>
+      <button class="btn">Старт</button>
+    </div>
+    <div class="caption">02-setup.png</div>
+  </section>
+
+  <!-- 03 TRAINING -->
+  <section class="screen" id="training">
+    <div class="topbar">
+      <div class="logo">TypePulse</div>
+      <nav class="nav">
+        <a href="#">Главная</a>
+        <a class="active" href="#">Тренировка</a>
+        <a href="#">История</a>
+        <a href="#">Рейтинг</a>
+      </nav>
+    </div>
+    <div class="timer">0:47</div>
+    <div class="sysml-tag">SysML: TypePulseUI::TrainingScreen</div>
+    <div class="content" style="padding-top:48px">
+      <div class="prompt">
+        <span class="ok">Быстрая печать </span><span class="bad">п</span><span class="ok">ребует</span><span class="cur"> </span><span class="dim">регулярной практики и внимания к точности набора.</span>
+      </div>
+      <div class="metrics">
+        <div class="metric"><b>54</b><span>WPM (live)</span></div>
+        <div class="metric"><b>94%</b><span>Точность</span></div>
+        <div class="metric"><b>3</b><span>Ошибки</span></div>
+      </div>
+    </div>
+    <div class="caption">03-training.png</div>
+  </section>
+
+  <!-- 04 RESULT -->
+  <section class="screen" id="result">
+    <div class="topbar">
+      <div class="logo">TypePulse</div>
+      <nav class="nav">
+        <a href="#">Главная</a>
+        <a class="active" href="#">Тренировка</a>
+        <a href="#">История</a>
+        <a href="#">Рейтинг</a>
+      </nav>
+    </div>
+    <div class="sysml-tag">SysML: TypePulseUI::ResultScreen</div>
+    <div class="content">
+      <h2>Результат тренировки</h2>
+      <div class="row" style="margin-top:24px">
+        <div class="card" style="min-width:180px;text-align:center">
+          <div class="big-metric">62</div>
+          <div>WPM</div>
+        </div>
+        <div class="card" style="min-width:180px;text-align:center">
+          <div class="big-metric" style="color:#1a2332">96%</div>
+          <div>Точность</div>
+        </div>
+        <div class="card" style="min-width:180px;text-align:center">
+          <div class="big-metric" style="color:#b42318">4</div>
+          <div>Ошибки</div>
+        </div>
+      </div>
+      <p style="color:var(--muted)">Язык: RU · 60 с · сложность: средний</p>
+      <button class="btn">Ещё раз</button>
+      <button class="btn ghost">К истории</button>
+    </div>
+    <div class="caption">04-result.png</div>
+  </section>
+
+  <!-- 05 HISTORY -->
+  <section class="screen" id="history">
+    <div class="topbar">
+      <div class="logo">TypePulse</div>
+      <nav class="nav">
+        <a href="#">Главная</a>
+        <a href="#">Тренировка</a>
+        <a class="active" href="#">История</a>
+        <a href="#">Рейтинг</a>
+      </nav>
+    </div>
+    <div class="sysml-tag">SysML: TypePulseUI::HistoryScreen</div>
+    <div class="content">
+      <div class="row">
+        <div style="flex:1.2">
+          <h3>Моя история</h3>
+          <table>
+            <tr><th>Дата</th><th>WPM</th><th>Точность</th><th>Язык</th></tr>
+            <tr><td>.10.2026</td><td>62</td><td>96%</td><td>RU</td></tr>
+            <tr><td>.10.2026</td><td>58</td><td>93%</td><td>EN</td></tr>
+            <tr><td>.10.2026</td><td>55</td><td>97%</td><td>RU</td></tr>
+            <tr><td>.10.2026</td><td>51</td><td>91%</td><td>RU</td></tr>
+          </table>
+        </div>
+        <div style="flex:1">
+          <h3>Рейтинг</h3>
+          <table>
+            <tr><th>#</th><th>Ник</th><th>WPM</th></tr>
+            <tr><td>1</td><td>fast_fingers</td><td>91</td></tr>
+            <tr><td>2</td><td>ulyana_l</td><td>62</td></tr>
+            <tr><td>3</td><td>print_pro</td><td>60</td></tr>
+            <tr><td>4</td><td>qwerty</td><td>54</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="caption">05-history-leaderboard.png</div>
+  </section>
+</body>
+</html>
