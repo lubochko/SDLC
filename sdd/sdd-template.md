@@ -2,13 +2,13 @@
 
 Для **TypePulse** — веб-приложения (интерактивный тренажёр скорости печати)
 
-Версия 0.2
+Версия 0.3
 
 Подготовила Лубочко Ульяна Антоновна
 
 БГУИР, кафедра ЭВМ, группа 450501
 
-2026-11-03
+2026-11-17
 
 ## Оглавление
 
@@ -48,6 +48,7 @@
 |------|------|--------------------|---------|
 | Лубочко У. А. | 2026-11-03 | Первичное проектирование TypePulse по согласованному SRS (лаб. №4) | 0.1 |
 | Лубочко У. А. | 2026-11-03 | Уточнение приоритетов, оценок и плана итераций после согласования с Заказчиком | 0.2 |
+| Лубочко У. А. | 2026-11-17 | UML динамического поведения (use case / activity / state / sequence), ссылки на артефакты лаб. №5 | 0.3 |
 
 ---
 
@@ -87,6 +88,7 @@
 |----------|-----|--------------|
 | SRS / мокапы GUI / SysML TypePulse | нормативная | `srs/mockups/`, `srs/sysml/` |
 | ADR: Spring Boot-монолит | нормативная | `adr/adr-template.md` |
+| UML динамического поведения (лаб. №5) | нормативная | `uml/` |
 | ISO/IEC/IEEE 42010, IEEE 1016 | справочная | стандарты архитектуры и SDD |
 
 ### 1.5 Обзор документа {#15-document-overview}
@@ -251,7 +253,8 @@ Result (id, sessionId, userId, wpm, accuracy, errors, finishedAt)
 - **Title:** Сценарий тренировки  
 - **Viewpoint:** Interaction  
 - **Representation:** User выбирает параметры → создаётся RUNNING-сеанс → UI принимает ввод → по таймеру/концу текста вызывается finish → сохраняется Result → экран результата. При обрыве сети сеанс CANCELLED, успешный результат не пишется.  
-- **More Information:** REQ-FUNC-003, REQ-REL-001.
+- **UML:** диаграмма последовательности `uml/diagrams/04-sequence-training.puml` (`uml/png/04-sequence-training.png`); диаграмма активности `uml/diagrams/02-activity-training.puml`.  
+- **More Information:** REQ-FUNC-003, REQ-REL-001; UC-05 / UC-06 в `uml/use-cases.md`.
 
 ### VIEW-006 — Metrics algorithm
 
@@ -274,7 +277,17 @@ errors    = число ошибочных символов
 - **Title:** Состояния тренировки  
 - **Viewpoint:** State Dynamics  
 - **Representation:** `CREATED → RUNNING → FINISHED | CANCELLED`. FINISHED порождает неизменяемый Result.  
+- **UML:** `uml/diagrams/03-state-session.puml` → `uml/png/03-state-session.png`.  
 - **More Information:** VIEW-005.
+
+### VIEW-009 — Use case model (лаб. №5)
+
+- **ID:** VIEW-009  
+- **Title:** Модель вариантов использования TypePulse  
+- **Viewpoint:** Interaction / Context  
+- **Representation:** актёры Гость, Пользователь, Таймер; прецеденты UC-01…UC-09; связи include/extend.  
+- **UML:** `uml/diagrams/01-use-case.puml` → `uml/png/01-use-case.png`; описания — `uml/use-cases.md`; глоссарий — `uml/glossary.md`; доп. спецификации — `uml/additional-specs.md`.  
+- **More Information:** REQ-FUNC-001…007; SYS-F-01…08.
 
 ### VIEW-008 — Patterns, deployment, resources
 
@@ -340,4 +353,15 @@ errors    = число ошибочных символов
 | I2 | 8 | 4 | Завершение SYS-F-02; SYS-F-04; SYS-F-05; SYS-F-08 (Junior: UI формы) |
 | I3 | 7 | 5 | SYS-F-06 (Junior UI); SYS-F-07; SYS-NF-03…05; интеграция и демо-буфер |
 
+**Статус I1 (2026-11-17, лаб. №5):** реализован каркас Spring Boot в `typepulse/` — регистрация/вход, setup, сеанс с таймером/подсветкой/live WPM, серверный расчёт метрик, сохранение результата и базовая история.
+
 **Вне плана MVP:** SYS-F-09 Admin text catalog CRUD.
+
+### D. UML-артефакты динамического поведения (лаб. №5)
+
+| Диаграмма | PlantUML | PNG |
+|-----------|----------|-----|
+| Use Case | `uml/diagrams/01-use-case.puml` | `uml/png/01-use-case.png` |
+| Activity | `uml/diagrams/02-activity-training.puml` | `uml/png/02-activity-training.png` |
+| State | `uml/diagrams/03-state-session.puml` | `uml/png/03-state-session.png` |
+| Sequence | `uml/diagrams/04-sequence-training.puml` | `uml/png/04-sequence-training.png` |

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Результат — TypePulse</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}"/>
+</head>
+<body>
+<div th:replace="~{fragments :: top}"></div>
+<main class="container">
+    <section class="panel">
+        <h1>Результат</h1>
+        <div class="stats">
+            <div class="stat"><span class="muted">WPM</span><strong th:text="${result.wpm}">0</strong></div>
+            <div class="stat"><span class="muted">Точность %</span><strong th:text="${result.accuracy}">0</strong></div>
+            <div class="stat"><span class="muted">Ошибки</span><strong th:text="${result.errors}">0</strong></div>
+            <div class="stat"><span class="muted">Время мс</span><strong th:text="${result.elapsedMs}">0</strong></div>
+        </div>
+        <div class="actions">
+            <a class="btn" th:href="@{/training/setup}">Ещё раз</a>
+            <a class="btn" th:href="@{/history}" style="background:#31465c;color:#fff">История</a>
+        </div>
+    </section>
+</main>
+</body>
+</html>

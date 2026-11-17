@@ -60,3 +60,11 @@ ehthumbs.db
 Desktop.ini
 
 srs/mockups/pages/
+typepulse/data/
+node_modules/
+package.json
+package-lock.json
+uml/plantuml.jar
+typepulse-starter.zip
+_lab5_extract.txt
+_ref_Lab5.pdf

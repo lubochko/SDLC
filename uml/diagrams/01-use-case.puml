@@ -1,0 +1,55 @@
+@startuml 01-use-case
+!theme plain
+skinparam packageStyle rectangle
+skinparam actorStyle awesome
+left to right direction
+title TypePulse — диаграмма вариантов использования (лаб. №5)
+
+actor "Гость" as Guest
+actor "Пользователь" as User
+actor "Таймер\n(время)" as Timer
+
+rectangle TypePulse {
+  usecase "UC-01 Зарегистрироваться" as UC01
+  usecase "UC-02 Войти в систему" as UC02
+  usecase "UC-03 Выйти из системы" as UC03
+  usecase "UC-04 Настроить тренировку" as UC04
+  usecase "UC-05 Провести тренировку" as UC05
+  usecase "UC-06 Рассчитать и сохранить результат" as UC06
+  usecase "UC-07 Просмотреть историю" as UC07
+  usecase "UC-08 Просмотреть рейтинг" as UC08
+  usecase "UC-09 Загрузить пользовательский текст" as UC09
+}
+
+Guest --> UC01
+Guest --> UC02
+
+User --> UC03
+User --> UC04
+User --> UC05
+User --> UC07
+User --> UC08
+User --> UC09
+
+Timer --> UC05
+
+UC05 ..> UC02 : <<include>>
+UC05 ..> UC06 : <<include>>
+UC04 ..> UC09 : <<extend>>
+
+note right of Guest
+  Неавторизованный посетитель:
+  лендинг, регистрация, вход.
+end note
+
+note right of User
+  Авторизованная учётная запись:
+  тренировки, история, рейтинг, свои тексты.
+end note
+
+note bottom of UC05
+  Основной бизнес-сценарий MVP.
+  По таймеру или концу текста → UC-06.
+end note
+
+@enduml

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+<header th:fragment="top" class="topbar">
+    <a class="brand" th:href="@{/}">TypePulse</a>
+    <nav>
+        <a th:href="@{/}">Главная</a>
+        <a sec:authorize="isAuthenticated()" th:href="@{/training/setup}">Тренировка</a>
+        <a sec:authorize="isAuthenticated()" th:href="@{/history}">История</a>
+        <a sec:authorize="!isAuthenticated()" th:href="@{/login}">Вход</a>
+        <a sec:authorize="!isAuthenticated()" th:href="@{/register}">Регистрация</a>
+        <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post" class="inline">
+            <button type="submit">Выход</button>
+        </form>
+    </nav>
+</header>
+</body>
+</html>
