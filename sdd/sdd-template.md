@@ -2,13 +2,13 @@
 
 Для **TypePulse** — веб-приложения (интерактивный тренажёр скорости печати)
 
-Версия 0.3
+Версия 0.4
 
 Подготовила Лубочко Ульяна Антоновна
 
 БГУИР, кафедра ЭВМ, группа 450501
 
-2026-11-17
+2026-11-24
 
 ## Оглавление
 
@@ -49,6 +49,7 @@
 | Лубочко У. А. | 2026-11-03 | Первичное проектирование TypePulse по согласованному SRS (лаб. №4) | 0.1 |
 | Лубочко У. А. | 2026-11-03 | Уточнение приоритетов, оценок и плана итераций после согласования с Заказчиком | 0.2 |
 | Лубочко У. А. | 2026-11-17 | UML динамического поведения (use case / activity / state / sequence), ссылки на артефакты лаб. №5 | 0.3 |
+| Лубочко У. А. | 2026-11-24 | UML статической структуры (классы, компоненты, развёртывание) — лаб. №6; словесные описания представлений | 0.4 |
 
 ---
 
@@ -88,12 +89,13 @@
 |----------|-----|--------------|
 | SRS / мокапы GUI / SysML TypePulse | нормативная | `srs/mockups/`, `srs/sysml/` |
 | ADR: Spring Boot-монолит | нормативная | `adr/adr-template.md` |
-| UML динамического поведения (лаб. №5) | нормативная | `uml/` |
+| UML динамического поведения (лаб. №5) | нормативная | `uml/diagrams/` (PDF) |
+| UML статической структуры (лаб. №6) | нормативная | VIEW-010…012 настоящего SDD; ADR |
 | ISO/IEC/IEEE 42010, IEEE 1016 | справочная | стандарты архитектуры и SDD |
 
 ### 1.5 Обзор документа {#15-document-overview}
 
-Раздел 2 описывает стейкхолдеров и выбранные точки зрения. Раздел 3 содержит проектные представления, достаточные для реализации MVP. Раздел 4 ссылается на ADR. Раздел 5 — системные требования с приоритетами, оценки и согласованный план итераций. Изменения фиксируются в таблице «История изменений».
+Раздел 2 описывает стейкхолдеров и выбранные точки зрения. Раздел 3 содержит проектные представления, достаточные для реализации MVP, включая UML динамики (лаб. №5) и статической структуры (лаб. №6: VIEW-010…012). Раздел 4 ссылается на ADR. Раздел 5 — системные требования с приоритетами, оценки и план итераций. Изменения фиксируются в таблице «История изменений».
 
 ---
 
@@ -253,8 +255,8 @@ Result (id, sessionId, userId, wpm, accuracy, errors, finishedAt)
 - **Title:** Сценарий тренировки  
 - **Viewpoint:** Interaction  
 - **Representation:** User выбирает параметры → создаётся RUNNING-сеанс → UI принимает ввод → по таймеру/концу текста вызывается finish → сохраняется Result → экран результата. При обрыве сети сеанс CANCELLED, успешный результат не пишется.  
-- **UML:** диаграмма последовательности `uml/diagrams/04-sequence-training.puml` (`uml/png/04-sequence-training.png`); диаграмма активности `uml/diagrams/02-activity-training.puml`.  
-- **More Information:** REQ-FUNC-003, REQ-REL-001; UC-05 / UC-06 в `uml/use-cases.md`.
+- **UML:** диаграмма последовательности `uml/diagrams/sequence.pdf`; диаграмма активности `uml/diagrams/activity.pdf`.  
+- **More Information:** REQ-FUNC-003, REQ-REL-001; `uml/glossary.md`, `uml/additional-specs.md`.
 
 ### VIEW-006 — Metrics algorithm
 
@@ -277,7 +279,7 @@ errors    = число ошибочных символов
 - **Title:** Состояния тренировки  
 - **Viewpoint:** State Dynamics  
 - **Representation:** `CREATED → RUNNING → FINISHED | CANCELLED`. FINISHED порождает неизменяемый Result.  
-- **UML:** `uml/diagrams/03-state-session.puml` → `uml/png/03-state-session.png`.  
+- **UML:** `uml/diagrams/state.pdf`.  
 - **More Information:** VIEW-005.
 
 ### VIEW-009 — Use case model (лаб. №5)
@@ -285,8 +287,8 @@ errors    = число ошибочных символов
 - **ID:** VIEW-009  
 - **Title:** Модель вариантов использования TypePulse  
 - **Viewpoint:** Interaction / Context  
-- **Representation:** актёры Гость, Пользователь, Таймер; прецеденты UC-01…UC-09; связи include/extend.  
-- **UML:** `uml/diagrams/01-use-case.puml` → `uml/png/01-use-case.png`; описания — `uml/use-cases.md`; глоссарий — `uml/glossary.md`; доп. спецификации — `uml/additional-specs.md`.  
+- **Representation:** актёр Пользователь (и при необходимости Таймер); прецеденты регистрации, входа, настройки и проведения тренировки, расчёта/сохранения результата, истории, рейтинга, загрузки текста, выхода; связи `<<include>>` / `<<extend>>`.  
+- **UML:** `uml/diagrams/use-case.pdf`; глоссарий — `uml/glossary.md`; доп. спецификации — `uml/additional-specs.md`.  
 - **More Information:** REQ-FUNC-001…007; SYS-F-01…08.
 
 ### VIEW-008 — Patterns, deployment, resources
@@ -294,8 +296,66 @@ errors    = число ошибочных символов
 - **ID:** VIEW-008  
 - **Title:** Стиль, развёртывание и ресурсы  
 - **Viewpoint:** Patterns / Deployment / Resources  
-- **Representation:** Layered modular monolith; один узел JVM + БД; локальный запуск через README (JDK 17+).  
+- **Representation:** Layered modular monolith; один узел JVM + БД; локальный запуск через README (JDK 17+). Детализация узлов и артефактов — VIEW-012.  
 - **More Information:** `adr/adr-template.md`; REQ-INST-001, REQ-PERF-002.
+
+### VIEW-010 — Class diagram (лаб. №6)
+
+- **ID:** VIEW-010  
+- **Title:** Диаграмма классов TypePulse  
+- **Viewpoint:** Logical / Structure  
+- **Representation (словесно):**  
+  На диаграмме классов показаны сущности доменной модели и сервисный слой MVP.  
+  **Классы-сущности:** `UserAccount` (id, login, email, passwordHash, role), `TextSnippet` (id, language, difficulty, body, ownerUserId), `TrainingSession` (id, userId, textId, durationSec, startedAt, status), `Result` (id, sessionId, userId, wpm, accuracy, errors, elapsedMs, finishedAt).  
+  **Классы-сервисы:** `AuthService` (register, authenticate), `TrainingService` (startSession, finishSession, cancelSession), `MetricsService` (calculate — формула WPM/accuracy/errors).  
+  **Связи:**  
+  - `UserAccount` «1» — «*» `TrainingSession` (ассоциация: пользователь проводит много сеансов);  
+  - `UserAccount` «1» — «*» `Result` (история результатов);  
+  - `TextSnippet` «1» — «*» `TrainingSession` (текст используется в сеансах);  
+  - `TrainingSession` «1» — «0..1» `Result` (успешный сеанс порождает один результат; при CANCELLED результата нет);  
+  - `TrainingService` зависит от `MetricsService` (пунктир dependency: finish вызывает calculate);  
+  - `AuthService` / `TrainingService` зависят от соответствующих сущностей через репозитории (на диаграмме допустимо показать dependency на `UserAccount`, `TrainingSession`, `Result`).  
+  Видимость атрибутов: поля сущностей — private (`-`), операции сервисов — public (`+`).  
+- **More Information:** VIEW-003; REQ-FUNC-001…005; ADR раздел «статическая структура».
+
+### VIEW-011 — Component diagram (лаб. №6)
+
+- **ID:** VIEW-011  
+- **Title:** Диаграмма компонентов TypePulse  
+- **Viewpoint:** Composition / Dependency  
+- **Representation (словесно):**  
+  Компоненты модульного монолита (логические модули одного JAR):  
+  - `ui` — веб-страницы (Thymeleaf) и клиентский JS подсветки;  
+  - `auth` — регистрация, вход, выход, сессии;  
+  - `training` — настройка и проведение сеанса;  
+  - `metrics` — расчёт WPM/точности;  
+  - `results` — сохранение Result и история;  
+  - `ranking` — топ-20;  
+  - `texts` — каталог и пользовательские тексты;  
+  - артефакт данных `database` (H2/PostgreSQL) как внешний компонент хранения.  
+  **Интерфейсы (предоставляемые / требуемые):**  
+  - `auth` предоставляет `IAuthentication`; `ui` и `training` его требуют;  
+  - `training` предоставляет `ITraining`; `ui` требует;  
+  - `metrics` предоставляет `IMetrics`; `training` требует;  
+  - `results` предоставляет `IResults`; `ui` и `ranking` требуют;  
+  - `texts` предоставляет `ITexts`; `training` требует;  
+  - `results` / `texts` / `auth` требуют интерфейс доступа к БД (`IPersistence` / JDBC).  
+  Зависимости направлены от UI к доменным компонентам и от доменных — к данным (без циклов UI↔БД напрямую для бизнес-правил).  
+- **More Information:** VIEW-002; ADR-001.
+
+### VIEW-012 — Deployment diagram (лаб. №6)
+
+- **ID:** VIEW-012  
+- **Title:** Диаграмма развёртывания TypePulse  
+- **Viewpoint:** Deployment / Physical  
+- **Representation (словесно):**  
+  Три узла учебного/демо-развёртывания:  
+  1. **ClientPC** (`<<device>>`) — браузер пользователя; размещён артефакт клиентской части (HTML/CSS/JS страниц TypePulse).  
+  2. **AppServer** (`<<device>>` / execution environment JVM) — исполняемый артефакт `typepulse.jar` (Spring Boot modular monolith), внутри которого работают компоненты `ui`, `auth`, `training`, `metrics`, `results`, `ranking`, `texts`.  
+  3. **DbServer** (`<<device>>`) — СУБД H2 (локальный профиль) или PostgreSQL; артефакт схемы данных TypePulse.  
+  **Соединения:** ClientPC — AppServer по **HTTP/HTTPS**; AppServer — DbServer по **JDBC**.  
+  Геораспределение и балансировщики в MVP отсутствуют (односерверная схема, REQ-INST-001).  
+- **More Information:** VIEW-008; ADR-001.
 
 ---
 
@@ -353,15 +413,25 @@ errors    = число ошибочных символов
 | I2 | 8 | 4 | Завершение SYS-F-02; SYS-F-04; SYS-F-05; SYS-F-08 (Junior: UI формы) |
 | I3 | 7 | 5 | SYS-F-06 (Junior UI); SYS-F-07; SYS-NF-03…05; интеграция и демо-буфер |
 
-**Статус I1 (2026-11-17, лаб. №5):** реализован каркас Spring Boot в `typepulse/` — регистрация/вход, setup, сеанс с таймером/подсветкой/live WPM, серверный расчёт метрик, сохранение результата и базовая история.
+**Статус (лаб. №5–6):** динамическое поведение задокументировано UML (PDF в `uml/diagrams/`); статическая структура описана в VIEW-010…012. Разработка основного функционала продолжается по плану I1–I3 (ADR / приложение C).
 
 **Вне плана MVP:** SYS-F-09 Admin text catalog CRUD.
 
 ### D. UML-артефакты динамического поведения (лаб. №5)
 
-| Диаграмма | PlantUML | PNG |
-|-----------|----------|-----|
-| Use Case | `uml/diagrams/01-use-case.puml` | `uml/png/01-use-case.png` |
-| Activity | `uml/diagrams/02-activity-training.puml` | `uml/png/02-activity-training.png` |
-| State | `uml/diagrams/03-state-session.puml` | `uml/png/03-state-session.png` |
-| Sequence | `uml/diagrams/04-sequence-training.puml` | `uml/png/04-sequence-training.png` |
+| Диаграмма | Файл |
+|-----------|------|
+| Use Case | `uml/diagrams/use-case.pdf` |
+| Activity | `uml/diagrams/activity.pdf` |
+| State | `uml/diagrams/state.pdf` |
+| Sequence | `uml/diagrams/sequence.pdf` |
+
+### E. UML-артефакты статической структуры (лаб. №6)
+
+| Диаграмма | Где описана в SDD |
+|-----------|-------------------|
+| Классов | VIEW-010 |
+| Компонентов | VIEW-011 |
+| Развёртывания | VIEW-012 |
+
+Механизмы построения и трассировка к монолиту — в `adr/adr-template.md` (раздел лаб. №6).

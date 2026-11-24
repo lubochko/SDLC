@@ -1,4 +1,6 @@
-﻿# UML TypePulse (лаб. №5)
+﻿# UML TypePulse
+
+## Лаб. №5 — динамическое поведение
 
 | Артефакт | Файл |
 |----------|------|
@@ -8,3 +10,15 @@
 | Диаграмма активности | [diagrams/activity.pdf](diagrams/activity.pdf) |
 | Диаграмма состояний | [diagrams/state.pdf](diagrams/state.pdf) |
 | Диаграмма последовательностей | [diagrams/sequence.pdf](diagrams/sequence.pdf) |
+
+## Лаб. №6 — статическая структура
+
+Словесные описания (без графических файлов на этом этапе):
+
+| Диаграмма | Раздел SDD |
+|-----------|------------|
+| Классов | `sdd/sdd-template.md` → VIEW-010 |
+| Компонентов | `sdd/sdd-template.md` → VIEW-011 |
+| Развёртывания | `sdd/sdd-template.md` → VIEW-012 |
+
+Механизмы построения и связи с архитектурой: `adr/adr-template.md` (раздел лаб. №6).
