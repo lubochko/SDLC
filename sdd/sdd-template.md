@@ -90,7 +90,7 @@
 | SRS / мокапы GUI / SysML TypePulse | нормативная | `srs/mockups/`, `srs/sysml/` |
 | ADR: Spring Boot-монолит | нормативная | `adr/adr-template.md` |
 | UML динамического поведения (лаб. №5) | нормативная | `uml/diagrams/` (PDF) |
-| UML статической структуры (лаб. №6) | нормативная | VIEW-010…012 настоящего SDD; ADR |
+| UML статической структуры (лаб. №6) | нормативная | `uml/diagrams/class.pdf`, `component.pdf`, `deployment.pdf`; VIEW-010…012; ADR |
 | ISO/IEC/IEEE 42010, IEEE 1016 | справочная | стандарты архитектуры и SDD |
 
 ### 1.5 Обзор документа {#15-document-overview}
@@ -316,6 +316,7 @@ errors    = число ошибочных символов
   - `TrainingService` зависит от `MetricsService` (пунктир dependency: finish вызывает calculate);  
   - `AuthService` / `TrainingService` зависят от соответствующих сущностей через репозитории (на диаграмме допустимо показать dependency на `UserAccount`, `TrainingSession`, `Result`).  
   Видимость атрибутов: поля сущностей — private (`-`), операции сервисов — public (`+`).  
+- **UML:** `uml/diagrams/class.pdf`.  
 - **More Information:** VIEW-003; REQ-FUNC-001…005; ADR раздел «статическая структура».
 
 ### VIEW-011 — Component diagram (лаб. №6)
@@ -341,6 +342,7 @@ errors    = число ошибочных символов
   - `texts` предоставляет `ITexts`; `training` требует;  
   - `results` / `texts` / `auth` требуют интерфейс доступа к БД (`IPersistence` / JDBC).  
   Зависимости направлены от UI к доменным компонентам и от доменных — к данным (без циклов UI↔БД напрямую для бизнес-правил).  
+- **UML:** `uml/diagrams/component.pdf`.  
 - **More Information:** VIEW-002; ADR-001.
 
 ### VIEW-012 — Deployment diagram (лаб. №6)
@@ -355,6 +357,7 @@ errors    = число ошибочных символов
   3. **DbServer** (`<<device>>`) — СУБД H2 (локальный профиль) или PostgreSQL; артефакт схемы данных TypePulse.  
   **Соединения:** ClientPC — AppServer по **HTTP/HTTPS**; AppServer — DbServer по **JDBC**.  
   Геораспределение и балансировщики в MVP отсутствуют (односерверная схема, REQ-INST-001).  
+- **UML:** `uml/diagrams/deployment.pdf`.  
 - **More Information:** VIEW-008; ADR-001.
 
 ---
@@ -428,10 +431,10 @@ errors    = число ошибочных символов
 
 ### E. UML-артефакты статической структуры (лаб. №6)
 
-| Диаграмма | Где описана в SDD |
-|-----------|-------------------|
-| Классов | VIEW-010 |
-| Компонентов | VIEW-011 |
-| Развёртывания | VIEW-012 |
+| Диаграмма | Файл | Раздел SDD |
+|-----------|------|------------|
+| Классов | `uml/diagrams/class.pdf` | VIEW-010 |
+| Компонентов | `uml/diagrams/component.pdf` | VIEW-011 |
+| Развёртывания | `uml/diagrams/deployment.pdf` | VIEW-012 |
 
 Механизмы построения и трассировка к монолиту — в `adr/adr-template.md` (раздел лаб. №6).

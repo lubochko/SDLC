@@ -13,12 +13,10 @@
 
 ## Лаб. №6 — статическая структура
 
-Словесные описания (без графических файлов на этом этапе):
-
-| Диаграмма | Раздел SDD |
-|-----------|------------|
-| Классов | `sdd/sdd-template.md` → VIEW-010 |
-| Компонентов | `sdd/sdd-template.md` → VIEW-011 |
-| Развёртывания | `sdd/sdd-template.md` → VIEW-012 |
+| Диаграмма | Файл | Раздел SDD |
+|-----------|------|------------|
+| Классов | [diagrams/class.pdf](diagrams/class.pdf) | VIEW-010 |
+| Компонентов | [diagrams/component.pdf](diagrams/component.pdf) | VIEW-011 |
+| Развёртывания | [diagrams/deployment.pdf](diagrams/deployment.pdf) | VIEW-012 |
 
 Механизмы построения и связи с архитектурой: `adr/adr-template.md` (раздел лаб. №6).
